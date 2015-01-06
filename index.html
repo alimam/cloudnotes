@@ -48,16 +48,38 @@
             </div>
             <div class="panel-body">
               <p>Choose activity
-                <select>
-                  <option value="run">Run</option>
-                  <option value="yoga">Yoga</option>
-                  <option value="study">Study</option>
+                <select id="activity" onchange="myfunction(this.value);">
+                  <option value="Run">Run</option>
+                  <option value="Yoga">Yoga</option>
+                  <option value="Study">Study</option>
                 </select>
               </p>
               <p>
                 Enter value:
-                <input type="number" name="aValue" value="0.0">
+                <input type="number" name="aValue" id="value" value="0.0">
               </p>
+
+              <!--<a href="https://twitter.com/intent/tweet?screen_name=mohamed_al_imam&text=Test%2010" class="twitter-mention-button">Tweet to @mohamed_al_imam</a>-->
+              <a id="habal" class="twitter-share-button" href="https://twitter.com/share"
+              data-text="@mohamed_al_imam test 1"
+              data-count="horizontal">
+              Tweet
+            </a>
+            <!--<script>
+            var aValue = document.getElementById('activity').value;
+            var bValue = document.getElementById('value').value;
+            var cValue = "@mohamed_al_imam " + aValue + " " + bValue;
+            function myfunction(val) {
+              var aValue = val;
+              var bValue = document.getElementById('value').value;
+              var cValue = "@mohamed_al_imam " + aValue + " " + bValue;
+              document.getElementById('habal').setAttribute("data-text", "ay kalam");
+              console.log(cValue);
+            }
+
+
+          </script>-->
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
             </div>
           </div>
