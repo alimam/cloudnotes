@@ -19,6 +19,16 @@
     <!-- Custom styles for this template -->
     <link href="theme.css" rel="stylesheet">
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.3.3.min.js"></script>
+
+
+    <script src="./handlebars-v2.0.0.js"></script>
+
+
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
@@ -48,7 +58,7 @@
             </div>
             <div class="panel-body">
               <p>Choose activity
-                <select id="activity" onchange="myfunction(this.value);">
+                <select id="activity">
                   <option value="Run">Run</option>
                   <option value="Yoga">Yoga</option>
                   <option value="Study">Study</option>
@@ -56,33 +66,12 @@
               </p>
               <p>
                 Enter value:
-                <input type="number" name="aValue" id="value" value="0.0">
+                <input type="number" name="aValue" id="aValue" value="0.0">
               </p>
-
-              <!--<a href="https://twitter.com/intent/tweet?screen_name=mohamed_al_imam&text=Test%2010" class="twitter-mention-button">Tweet to @mohamed_al_imam</a>-->
-              <a id="habal" class="twitter-share-button" href="https://twitter.com/share"
-              data-text="@mohamed_al_imam test 1"
-              data-count="horizontal">
-              Tweet
-            </a>
-            <!--<script>
-            var aValue = document.getElementById('activity').value;
-            var bValue = document.getElementById('value').value;
-            var cValue = "@mohamed_al_imam " + aValue + " " + bValue;
-            function myfunction(val) {
-              var aValue = val;
-              var bValue = document.getElementById('value').value;
-              var cValue = "@mohamed_al_imam " + aValue + " " + bValue;
-              document.getElementById('habal').setAttribute("data-text", "ay kalam");
-              console.log(cValue);
-            }
-
-
-          </script>-->
-              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
+              <button id="submit" type="button">Submit</button>
             </div>
           </div>
+
 
         </div><!-- /.col-sm-6 -->
         <div class="col-sm-6">
@@ -91,7 +80,21 @@
               <h3 class="panel-title">Check Activity</h3>
             </div>
             <div class="panel-body">
-              Panel content
+              <table class="table table-hover">
+                <caption>Submitted activities</caption>
+                <thead>
+                  <tr>
+                    <th>Activity</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody id="activitiesList">
+                  <tr>
+                    <td>Tanmay</td>
+                    <td>Bangalore</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -103,13 +106,71 @@
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script id="activityTempla" type="text/x-handlebars-template">
+      <tr>
+        <td>{{activity}}</td>
+        <td>{{aValue}}</td>
+      </tr>
+    </script>
 
-    <!--<script src="docs.min.js"></script>-->
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!--script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+      Parse.initialize("MBORYJfvz1E3qi2aiC4GbwFIKI1XuWI17PCzmFGJ", "8cftrKDpjrPQ73G1yTQeEpZ0RIqPPKXX36K6c2S2");
+
+      $(document).ready(function() {
+          getActivity();
+      });
+
+      function getActivity() {
+        var Activity = Parse.Object.extend("Activity");
+        var query = new Parse.Query(Activity);
+
+        query.find({
+          success: function(results) {
+            $("#activitiesList").html("");
+            var template = Handlebars.compile($("#activityTempla").html());
+
+            $(results).each(function(i,e) {
+              var q = e.toJSON();
+              $("#activitiesList").append(template(q));
+            })
+
+          },
+          error: function(error) {
+            console.log(error.message);
+          }
+        });
+
+      }
+
+
+      function saveActivity(data) {
+        var Activity = Parse.Object.extend("Activity");
+        var activity = new Activity();
+
+        activity.set("activity", data.activity);
+        activity.set("aValue", data.aValue);
+
+        activity.save(null, {
+          success: function () {
+            console.log("Successfully saved " + data.activity + " " + data.aValue);
+            getActivity();
+          },
+          error: function (activity, error) {
+            console.log(error.message);
+          }
+        });
+
+      }
+
+      $( "#submit" ).click(function() {
+        var data = {
+          activity: $("#activity option:selected").text(),
+          aValue: $("#aValue").val()
+        };
+        saveActivity(data);
+      });
+
+
+    </script>
   </body>
 </html>
