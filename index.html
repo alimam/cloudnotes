@@ -105,8 +105,8 @@
         'Thanks for logging in, ' + response.name + '!';
       //window.location="http://alimam.github.io/cloudnotes/main.html";
       $("#loginWelcome").text("Hello, " + response.name);
-      $("#logoutButton").append("<button onclick=\"FB.logout()\">Logout</button>");
-      $("#loginPanel").empty();
+      $("#logoutButton").append("<button onclick=\"FB.logout(function(response) {$("#loginPanel").show()})\">Logout</button>");
+      $("#loginPanel").hide();
     });
   }
 </script>
