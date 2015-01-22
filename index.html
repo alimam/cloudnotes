@@ -104,7 +104,8 @@
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
       //window.location="http://alimam.github.io/cloudnotes/main.html";
-      $("#loginWelcome").text("Hello");
+      $("#loginWelcome").text("Hello, " + response.name);
+      $("#loginPanel").empty();
     });
   }
 </script>
@@ -125,7 +126,7 @@
 <div class="col-sm-4">
 </div>
 <div class="col-sm-4">
-  <div class="panel panel-default">
+  <div class="panel panel-default" id="loginPanel">
     <div class="panel-heading" align="center">
       <h3 class="panel-title">Login to CloudNotes</h3>
     </div>
