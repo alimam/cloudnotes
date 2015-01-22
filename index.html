@@ -105,6 +105,7 @@
         'Thanks for logging in, ' + response.name + '!';
       //window.location="http://alimam.github.io/cloudnotes/main.html";
       $("#loginWelcome").text("Hello, " + response.name);
+      $("#logoutButton").append("<button onclick=\"FB.logout()\">Logout</button>");
       $("#loginPanel").empty();
     });
   }
@@ -120,6 +121,7 @@
     <h1>CloudNotes</h1>
     <p>Share activities with the world</p>
     <p id="loginWelcome"></p>
+    <div id="logoutButton"></div>
   </div>
 </div>
 <div class="row">
