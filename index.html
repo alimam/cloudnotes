@@ -110,11 +110,13 @@
     });
   }
   function logoutRoutine () {
-    FB.logout();
+    FB.logout(function (response) {
+      checkLoginState();
+    });
     $("#loginPanel").show();
     $("#logoutButton").empty();
     $("#loginWelcome").text("");
-    checkLoginState();
+
     //$("#status").text("");
   }
 </script>
