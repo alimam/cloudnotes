@@ -112,6 +112,8 @@
   function logoutRoutine () {
     FB.logout();
     $("#loginPanel").show();
+    $("#logoutButton").empty();
+    $("#loginWelcom").text("");
   }
 </script>
 
