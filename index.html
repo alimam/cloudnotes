@@ -103,7 +103,8 @@
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
-      window.location="http://alimam.github.io/cloudnotes/main.html";
+      //window.location="http://alimam.github.io/cloudnotes/main.html";
+      $(#loginWelcome).text("Hello");
     });
   }
 </script>
@@ -117,6 +118,7 @@
   <div class="jumbotron">
     <h1>CloudNotes</h1>
     <p>Share activities with the world</p>
+    <p id="loginWelcome"></p>
   </div>
 </div>
 <div class="row">
