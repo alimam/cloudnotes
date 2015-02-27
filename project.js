@@ -4,28 +4,13 @@ angular.module('project', ['ngRoute', 'firebase'])
 .service('fbRef', function(fbURL) {
   return new Firebase(fbURL)
 })
-.service('fbAuth', function($q, $firebase, $firebaseAuth, fbRef) {
-  var auth;
-  return function () {
-      if (auth) return $q.when(auth);
-      var authObj = $firebaseAuth(fbRef);
-      if (authObj.$getAuth()) {
-        return $q.when(auth = authObj.$getAuth());
-      }
-      var deferred = $q.defer();
-      authObj.$authAnonymously().then(function(authData) {
-          auth = authData;
-          deferred.resolve(authData);
-      });
-      return deferred.promise;
-  }
-})
+
  
-.service('Projects', function($q, $firebase, fbRef, fbAuth) {
+.service('Projects', function($q, $firebase, fbRef) {
   var self = this;
   this.fetch = function () {
     if (this.projects) return $q.when(this.projects);
-    return fbAuth().then(function(auth) {
+    return (function() {
       var deferred = $q.defer();
       var ref = fbRef.child('projects/');
       var $projects = $firebase(ref);
@@ -34,7 +19,6 @@ angular.module('project', ['ngRoute', 'firebase'])
           $projects.$set(window.projectsArray);
         }
         self.projects = $projects.$asArray();
-        deferred.resolve(self.projects);
       });
       return deferred.promise;
     });
